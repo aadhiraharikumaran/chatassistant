@@ -7,6 +7,9 @@ import logging
 # Set up logging for debugging
 logging.basicConfig(level=logging.DEBUG)
 
+# Streamlit app title and configuration
+st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
+
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -100,7 +103,6 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Streamlit app title
-st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
 st.title("💬 How to Talk to Madhuma")
 
 # Input box for user query
