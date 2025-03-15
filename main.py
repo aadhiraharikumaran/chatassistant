@@ -34,29 +34,32 @@ def get_groq_response(question):
     
     return response.choices[0].message.content
 
-# Add custom CSS
+# Add custom CSS for the app's appearance
 st.markdown("""
     <style>
     body {
-        background-color: #FFA9CB;
-        color: #F2799B;
+        background-color: #FFA9CB;  /* Background color */
+        color: #F2799B;  /* Text color */
         font-family: 'Arial', sans-serif;
     }
     h1, h2, h3 {
-        color: #ED408B;
+        color: #ED408B;  /* Heading color */
     }
     .stButton>button {
-        background-color: #ED408B;
+        background-color: #ED408B;  /* Button background color */
         color: white;
-        padding: 10px 20px;
-        font-size: 16px;
+        padding: 12px 25px;
+        font-size: 18px;
         border-radius: 10px;
         border: none;
         cursor: pointer;
     }
+    .stButton>button:hover {
+        background-color: #F2799B;
+    }
     .stTextInput>div>div>input {
         border-radius: 10px;
-        padding: 10px;
+        padding: 12px;
         border: 2px solid #ED408B;
         color: #F2799B;
     }
@@ -66,7 +69,7 @@ st.markdown("""
     .chat-bubble-user {
         background-color: #F2799B;
         color: white;
-        padding: 10px;
+        padding: 12px;
         margin-bottom: 10px;
         border-radius: 15px;
         width: fit-content;
@@ -76,12 +79,15 @@ st.markdown("""
     .chat-bubble-assistant {
         background-color: #ED408B;
         color: white;
-        padding: 10px;
+        padding: 12px;
         margin-bottom: 10px;
         border-radius: 15px;
         width: fit-content;
         max-width: 75%;
         align-self: flex-end;
+    }
+    .stMarkdown {
+        margin-top: 20px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -107,6 +113,7 @@ if submit_button and query:
     # Add assistant's response
     st.session_state.messages.append({"role": "assistant", "content": response})
     
+# Display all the messages in the chat interface
 if len(st.session_state.messages) > 0:
     for message in st.session_state.messages:
         if message['role'] == 'user':
@@ -116,4 +123,5 @@ if len(st.session_state.messages) > 0:
 
 # Display styled heading and prompt for user
 st.markdown('### **What did Madhuma say?**')
-st.markdown("This is how you must respond to diffuse arguments and make her feel loved again!💡")
+st.markdown("This is how you must respond to diffuse arguments and make her feel loved again! 💡")
+
