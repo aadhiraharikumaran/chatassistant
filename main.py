@@ -34,6 +34,9 @@ def get_groq_response(question):
     
     return response.choices[0].message.content
 
+# Set page configuration first
+st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
+
 # Add custom CSS for the app's appearance
 st.markdown("""
     <style>
@@ -86,14 +89,10 @@ st.markdown("""
         max-width: 75%;
         align-self: flex-end;
     }
-    .stMarkdown {
-        margin-top: 20px;
-    }
     </style>
     """, unsafe_allow_html=True)
 
 # Streamlit app title
-st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
 st.title("💬 How to Talk to Your Girlfriend")
 
 # Input box for user query
@@ -112,7 +111,7 @@ if submit_button and query:
     st.session_state.messages.append({"role": "user", "content": query})
     # Add assistant's response
     st.session_state.messages.append({"role": "assistant", "content": response})
-    
+
 # Display all the messages in the chat interface
 if len(st.session_state.messages) > 0:
     for message in st.session_state.messages:
@@ -124,4 +123,3 @@ if len(st.session_state.messages) > 0:
 # Display styled heading and prompt for user
 st.markdown('### **What did Madhuma say?**')
 st.markdown("This is how you must respond to diffuse arguments and make her feel loved again! 💡")
-
