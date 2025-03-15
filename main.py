@@ -3,12 +3,10 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 import logging
+import groq  # Added to handle groq exceptions
 
 # Set up logging for debugging
 logging.basicConfig(level=logging.DEBUG)
-
-# Streamlit app title and configuration
-st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -102,7 +100,8 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Streamlit app title
+# Streamlit app title and configuration
+st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
 st.title("💬 How to Talk to Madhuma")
 
 # Input box for user query
@@ -130,5 +129,5 @@ if len(st.session_state.messages) > 0:
             st.markdown(f'<div class="chat-bubble-assistant"><b>Assistant:</b> {message["content"]}</div>', unsafe_allow_html=True)
 
 # Display styled heading and prompt for user
-st.markdown('### **This is how you diffuse arguments and make her feel loved again <3 !!**')
+st.markdown('### **This is how you diffuse arguments and make her feel loved again <3**')
 st.markdown("Made to develop a healthy relationship by Madhuma <3")
