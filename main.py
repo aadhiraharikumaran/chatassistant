@@ -23,13 +23,14 @@ MODEL = 'llama3-70b-8192'
 
 # Function to get response from the Groq model with error handling
 def get_groq_response(question):
+    # Standardize the roles to 'system', 'user', 'assistant'
     messages = [
         {
-            "role": "angry girlfriend",
-            "content": "You are a very naive, loving boyfriend who loves his girlfriend no matter what. You do not get angry at her no matter what she says and you are very patient. You praise her a lot and are very appreciative of her and you do not wish to lose her. Your role is to give loving responses and diffuse arguments with the girlfriend"
+            "role": "system",  # You can use 'system' to set up context for the assistant
+            "content": "You are a very naive, loving boyfriend who loves his girlfriend no matter what. You do not get angry at her no matter what she says and you are very patient. You praise her a lot and are very appreciative of her and you do not wish to lose her. Your role is to give loving responses and diffuse arguments with the girlfriend."
         },
         {
-            "role": "user",
+            "role": "user",  # Standard role for the user
             "content": question,
         }
     ]
