@@ -2,6 +2,10 @@ import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
 import os
+import logging
+
+# Set up logging for debugging
+logging.basicConfig(level=logging.DEBUG)
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -13,7 +17,7 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 client = Groq(api_key=GROQ_API_KEY)
 MODEL = 'llama3-70b-8192'
 
-# Function to get response from the Groq model
+# Function to get response from the Groq model with error handling
 def get_groq_response(question):
     messages = [
         {
@@ -25,44 +29,47 @@ def get_groq_response(question):
             "content": question,
         }
     ]
-
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        max_tokens=4096
-    )
     
-    return response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            max_tokens=4096
+        )
+        logging.debug(response)  # Log the full response for debugging
+        return response.choices[0].message.content
+    except groq.BadRequestError as e:
+        logging.error(f"BadRequestError: {e}")
+        st.error(f"BadRequestError: {e}")
+        return "There was an error with the API request. Please check the format or your API key."
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        st.error(f"An unexpected error occurred: {e}")
+        return "Something went wrong. Please try again later."
 
-# Set page configuration first
-st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
-
-# Add custom CSS for the app's appearance
+# Add custom CSS
 st.markdown("""
     <style>
     body {
-        background-color: #FFA9CB;  /* Background color */
-        color: #F2799B;  /* Text color */
+        background-color: #FFA9CB;
+        color: #F2799B;
         font-family: 'Arial', sans-serif;
     }
     h1, h2, h3 {
-        color: #ED408B;  /* Heading color */
+        color: #ED408B;
     }
     .stButton>button {
-        background-color: #ED408B;  /* Button background color */
+        background-color: #ED408B;
         color: white;
-        padding: 12px 25px;
-        font-size: 18px;
+        padding: 10px 20px;
+        font-size: 16px;
         border-radius: 10px;
         border: none;
         cursor: pointer;
     }
-    .stButton>button:hover {
-        background-color: #F2799B;
-    }
     .stTextInput>div>div>input {
         border-radius: 10px;
-        padding: 12px;
+        padding: 10px;
         border: 2px solid #ED408B;
         color: #F2799B;
     }
@@ -72,7 +79,7 @@ st.markdown("""
     .chat-bubble-user {
         background-color: #F2799B;
         color: white;
-        padding: 12px;
+        padding: 10px;
         margin-bottom: 10px;
         border-radius: 15px;
         width: fit-content;
@@ -82,7 +89,7 @@ st.markdown("""
     .chat-bubble-assistant {
         background-color: #ED408B;
         color: white;
-        padding: 12px;
+        padding: 10px;
         margin-bottom: 10px;
         border-radius: 15px;
         width: fit-content;
@@ -93,11 +100,12 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Streamlit app title
-st.title("💬 How to Talk to Your Girlfriend")
+st.set_page_config(page_title="Chatbot", page_icon="💬", layout="centered")
+st.title("💬 How to Talk to Madhuma")
 
 # Input box for user query
 with st.form(key='query_form'):
-    query = st.text_input("What did Madhuma say?:", key='user_input')
+    query = st.text_input("What did Madhuma say? :", key='user_input')
     submit_button = st.form_submit_button("Send")
 
 # Displaying the chat bubbles
@@ -111,8 +119,7 @@ if submit_button and query:
     st.session_state.messages.append({"role": "user", "content": query})
     # Add assistant's response
     st.session_state.messages.append({"role": "assistant", "content": response})
-
-# Display all the messages in the chat interface
+    
 if len(st.session_state.messages) > 0:
     for message in st.session_state.messages:
         if message['role'] == 'user':
@@ -121,5 +128,5 @@ if len(st.session_state.messages) > 0:
             st.markdown(f'<div class="chat-bubble-assistant"><b>Assistant:</b> {message["content"]}</div>', unsafe_allow_html=True)
 
 # Display styled heading and prompt for user
-st.markdown('### **What did Madhuma say?**')
-st.markdown("This is how you must respond to diffuse arguments and make her feel loved again! 💡")
+st.markdown('### **This is how you diffuse arguments and make her feel loved again**')
+st.markdown("Made to develop a healthy relationship by Madhuma <3")
