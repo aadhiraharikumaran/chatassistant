@@ -130,5 +130,5 @@ if len(st.session_state.messages) > 0:
             st.markdown(f'<div class="chat-bubble-assistant"><b>Assistant:</b> {message["content"]}</div>', unsafe_allow_html=True)
 
 # Display styled heading and prompt for user
-st.markdown('### **This is how you diffuse arguments and make her feel loved again**')
+st.markdown('### **This is how you diffuse arguments and make her feel loved again <3 !!**')
 st.markdown("Made to develop a healthy relationship by Madhuma <3")
